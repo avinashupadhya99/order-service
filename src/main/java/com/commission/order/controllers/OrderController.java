@@ -2,6 +2,8 @@ package com.commission.order.controllers;
 
 import java.util.Optional;
 
+import javax.validation.ConstraintViolationException;
+
 import com.commission.order.model.Order;
 import com.commission.order.repository.OrderRepository;
 
@@ -47,8 +49,18 @@ public class OrderController {
     @RequestMapping(value = "/new", 
             method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order newOrder = orderRepository.save(order);
-        logger.info("New order created with OrderID - {}", newOrder.getId());
-        return new ResponseEntity<>(newOrder, HttpStatus.OK);
+        try {
+            Order newOrder = orderRepository.save(order);
+            logger.info("New order created with OrderID - {}", newOrder.getId());
+            return new ResponseEntity<>(newOrder, HttpStatus.OK);
+        } catch(ConstraintViolationException ex) {
+            logger.error("Constraint Validation error {} ", ex.getMessage());
+            ex.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch(Exception e) {
+            logger.error("Internal error {} ", e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
