@@ -34,7 +34,7 @@ public class OrderController {
                 logger.error("No order");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            logger.debug("Order {}", order.get().getOrderType());
+            logger.debug("Order {}", order.get().getType());
             return new ResponseEntity<>(order.get(), HttpStatus.OK);
         } catch(Exception e) {
             logger.error("Internal error {} ", e.getMessage());
