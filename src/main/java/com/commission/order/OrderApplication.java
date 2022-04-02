@@ -1,4 +1,4 @@
-package com.avinashupadhyaya.order;
+package com.commission.order;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

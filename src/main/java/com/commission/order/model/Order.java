@@ -1,4 +1,4 @@
-package com.avinashupadhyaya.order.model;
+package com.commission.order.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.persistence.Entity;

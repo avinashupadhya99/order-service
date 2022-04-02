@@ -1,4 +1,4 @@
-package com.avinashupadhyaya.order;
+package com.commission.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

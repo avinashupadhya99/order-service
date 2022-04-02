@@ -1,9 +1,9 @@
-package com.avinashupadhyaya.order.controllers;
+package com.commission.order.controllers;
 
 import java.util.Optional;
 
-import com.avinashupadhyaya.order.model.Order;
-import com.avinashupadhyaya.order.repository.OrderRepository;
+import com.commission.order.model.Order;
+import com.commission.order.repository.OrderRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
