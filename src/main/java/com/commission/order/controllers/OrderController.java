@@ -38,7 +38,7 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @RequestMapping(value = "/{orderID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Order> getAllRoadmaps(@PathVariable("orderID") String orderID) {
+    public ResponseEntity<Order> getOrder(@PathVariable("orderID") String orderID) {
         try {
             Optional<Order> order = orderRepository.findById(Long.parseLong(orderID));
             if(!order.isPresent()) {
