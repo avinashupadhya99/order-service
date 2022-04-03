@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 
 import com.commission.order.model.Order;
 import com.commission.order.repository.OrderRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,24 @@ public class OrderController {
             ex.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } catch(Exception e) {
+            logger.error("Internal error {} ", e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/complete", 
+            method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Order> completeOrder(@RequestBody JsonNode completeOrder) {
+        try {
+            Optional<Order> order = orderRepository.findById(completeOrder.get("orderId").asLong());
+            if(!order.isPresent()) {
+                logger.error("No order");
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            logger.info("New order completed with OrderID - {}", completeOrder.get("orderId").asLong());
+            return new ResponseEntity<>(order.get(), HttpStatus.OK);
+        }catch(Exception e) {
             logger.error("Internal error {} ", e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
