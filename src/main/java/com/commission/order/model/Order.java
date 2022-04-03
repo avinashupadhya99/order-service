@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
+import java.util.UUID;
 
 @Entity
 @Table(name="commission_order")
@@ -31,6 +31,8 @@ public class Order {
     private Long quantity;
     @NotBlank(message = "Order Product is mandatory")
     private String product;
+    @NotNull
+    private UUID customerId;
 
     public Long getId() {
         return this.id;
@@ -62,6 +64,14 @@ public class Order {
 
     public void setProduct(String product) {
         this.product = product;
+    }
+
+    public UUID getCustomerId() {
+        return this.customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 
 }

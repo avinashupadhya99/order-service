@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 
 import com.commission.order.model.Order;
 import com.commission.order.repository.OrderRepository;
+import com.commission.order.service.BillingService;
 import com.commission.order.service.ProduceService;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -30,6 +31,9 @@ public class OrderController {
 
     @Autowired
     ProduceService produceService;
+
+    @Autowired
+    BillingService billingService;
 
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
@@ -79,6 +83,7 @@ public class OrderController {
                 logger.error("No order");
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
+            billingService.createBilling(order.get());
             logger.info("Order completed with OrderID - {}", completeOrder.get("orderId").asLong());
             return new ResponseEntity<>(order.get(), HttpStatus.OK);
         }catch(Exception e) {
