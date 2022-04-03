@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 
 import com.commission.order.model.Order;
 import com.commission.order.repository.OrderRepository;
+import com.commission.order.service.ProduceService;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import org.slf4j.Logger;
@@ -26,6 +27,9 @@ public class OrderController {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    ProduceService produceService;
 
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
@@ -53,6 +57,7 @@ public class OrderController {
         try {
             Order newOrder = orderRepository.save(order);
             logger.info("New order created with OrderID - {}", newOrder.getId());
+            produceService.createProduce(newOrder);
             return new ResponseEntity<>(newOrder, HttpStatus.OK);
         } catch(ConstraintViolationException ex) {
             logger.error("Constraint Validation error {} ", ex.getMessage());
@@ -74,7 +79,7 @@ public class OrderController {
                 logger.error("No order");
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            logger.info("New order completed with OrderID - {}", completeOrder.get("orderId").asLong());
+            logger.info("Order completed with OrderID - {}", completeOrder.get("orderId").asLong());
             return new ResponseEntity<>(order.get(), HttpStatus.OK);
         }catch(Exception e) {
             logger.error("Internal error {} ", e.getMessage());
